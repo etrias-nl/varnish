@@ -6,7 +6,8 @@ LATESTTAG=${TAGPREFIX}:latest
 build:
 	docker build -t ${VERSIONTAG} -t ${LATESTTAG} .
 run:
-	docker run -it ${VERSIONTAG} -t ${LATESTTAG} bash
+	docker run -it ${VERSIONTAG} bash
 fresh-run: build run
 release: build
-	docker push ${TAG} ${LATESTTAG}
+	docker push ${VERSIONTAG}
+	docker push ${LATESTTAG}
