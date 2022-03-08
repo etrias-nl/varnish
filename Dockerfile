@@ -32,4 +32,6 @@ RUN cd /usr/local/src/ && \
 	./configure && \
 	make install && \
 	cd /usr/local/src && \
-	rm -rf libvmod-cfg-${CFG_VERSION}
+	rm -rf libvmod-cfg-${CFG_VERSION} \
+
+COPY varnishreload /usr/local/bin/varnishreload
