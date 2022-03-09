@@ -1,3 +1,17 @@
+#syntax=docker/dockerfile-upstream:master-experimental
+FROM golang as exporter_builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	git \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/jonnenauha/prometheus_varnish_exporter.git
+
+WORKDIR /go/prometheus_varnish_exporter
+RUN go build
+RUN ls -al .
+
+
 FROM emgag/varnish:6.6.2 AS varnish
 
 ARG GEOIP_VERSION=1.2.2
@@ -11,7 +25,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libcurl4-openssl-dev \
   libluajit-5.1-dev \
   xxd \
-  prometheus-varnish-exporter \
 	&& rm -rf /var/lib/apt/lists/*
 
 
@@ -33,8 +46,8 @@ RUN cd /usr/local/src/ && \
 	./configure && \
 	make install && \
 	cd /usr/local/src && \
-	rm -rf libvmod-cfg-${CFG_VERSION} \
+	rm -rf libvmod-cfg-${CFG_VERSION}
 
-
+COPY --from=exporter_builder /go/prometheus_varnish_exporter/prometheus_varnish_exporter /usr/bin/prometheus-varnish-exporter
 COPY varnishreload /usr/local/bin/varnishreload
 COPY vcl/kubernetes_checks.vcl /etc/varnish/
