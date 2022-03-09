@@ -34,4 +34,6 @@ RUN cd /usr/local/src/ && \
 	cd /usr/local/src && \
 	rm -rf libvmod-cfg-${CFG_VERSION} \
 
+
 COPY varnishreload /usr/local/bin/varnishreload
+COPY vcl/kubernetes_checks.vcl /etc/varnish/
