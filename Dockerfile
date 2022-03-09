@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libcurl4-openssl-dev \
   libluajit-5.1-dev \
   xxd \
+  prometheus-varnish-exporter \
 	&& rm -rf /var/lib/apt/lists/*
 
 
