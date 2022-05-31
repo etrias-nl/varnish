@@ -72,6 +72,8 @@ COPY vcl/kubernetes_checks.vcl /etc/varnish/
 COPY docker-entrypoint.d /docker-entrypoint.d/
 COPY docker-entrypoint.sh /
 
+COPY static /static
+
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh", "/init.sh"]
