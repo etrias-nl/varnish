@@ -9,7 +9,6 @@ RUN git clone https://github.com/jonnenauha/prometheus_varnish_exporter.git
 
 WORKDIR /go/prometheus_varnish_exporter
 RUN go build
-RUN ls -al .
 
 
 FROM emgag/varnish:6.6.2 AS varnish
@@ -57,7 +56,6 @@ RUN cd /usr/local/src/ && \
 RUN cd /usr/local/src/ && \
 	curl -sfLO https://github.com/xcir/libvmod-awsrest/archive/refs/tags/v${AWSREST_VERSION}.tar.gz && \
 	tar -xzf v${AWSREST_VERSION}.tar.gz && \
-  ls -al && \
 	cd libvmod-awsrest-${AWSREST_VERSION} && \
 	./autogen.sh && \
 	./configure && \
