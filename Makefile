@@ -3,13 +3,15 @@ MAKEFLAGS += --warn-undefined-variables --always-make
 
 exec_docker=docker run $(shell [ "$$CI" = true ] && echo "-t" || echo "-it") -u "$(shell id -u):$(shell id -g)" --rm -v "$(shell pwd):/app" -w /app
 
+VARNISH_VERSION=$(shell cat Dockerfile | grep 'FROM emgag/varnish:' | cut -f2 -d':' | cut -f1 -d ' ')
+
 lint-yaml:
 	${exec_docker} cytopia/yamllint .
 lint-dockerfile:
 	${exec_docker} hadolint/hadolint hadolint --ignore DL3006 --ignore DL3008 Dockerfile
 lint: lint-yaml lint-dockerfile
-release:
-	git tag "$(shell git describe --tags --abbrev=0 | cut -f1 -d '-')-$$(($(shell git describe --tags --abbrev=0 | cut -f2 -d '-') + 1))"
+release: lint
+	git tag "${VARNISH_VERSION}-$$(($(shell git describe --tags --abbrev=0 | cut -f2 -d '-') + 1))"
 	git push --tags
 build: lint
 	docker buildx build --load --tag "$(shell ${exec_docker} mikefarah/yq e '.env.DOCKER_IMAGE' .github/workflows/publish.yaml):$(shell git describe --tags)" .
