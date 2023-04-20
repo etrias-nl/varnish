@@ -8,11 +8,13 @@ exec_docker=docker run $(shell [ "$$CI" = true ] && echo "-t" || echo "-it") -u 
 
 VARNISH_VERSION=$(shell cat Dockerfile | grep 'FROM emgag/varnish:' | cut -f2 -d':' | cut -f1 -d ' ')
 
+lint-shell-scripts:
+	${exec_docker} koalaman/shellcheck --severity=error --format=gcc docker-entrypoint.sh docker-entrypoint.d/*
 lint-yaml:
 	${exec_docker} cytopia/yamllint .
 lint-dockerfile:
 	${exec_docker} hadolint/hadolint hadolint --ignore DL3006 --ignore DL3008 Dockerfile
-lint: lint-yaml lint-dockerfile
+lint: lint-shell-scripts lint-yaml lint-dockerfile
 release: lint
 	git tag "${VARNISH_VERSION}-$$(($(shell git describe --tags --abbrev=0 | cut -f2 -d '-') + 1))"
 	git push --tags
