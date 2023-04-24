@@ -4,7 +4,7 @@ MAKEFLAGS += --warn-undefined-variables --always-make
 IMAGE=$(shell docker run -i --rm mikefarah/yq '.env.DOCKER_IMAGE' < .github/workflows/publish.yaml)
 IMAGE_TAG=${IMAGE}:$(shell git describe --tags --exact-match || git branch --show-current)
 
-exec_docker=docker run $(shell [ "$$CI" = true ] && echo "-t" || echo "-it") -u "$(shell id -u):$(shell id -g)" --rm -v "$(shell pwd):/app" -w /app
+exec_docker=docker run $(shell [ "$$CI" = true ] && echo "-t" || echo "-it") -e CI -u "$(shell id -u):$(shell id -g)" --rm -v "$(shell pwd):/app" -w /app
 
 VARNISH_VERSION=$(shell cat Dockerfile | grep 'FROM emgag/varnish:' | cut -f2 -d':' | cut -f1 -d ' ')
 
