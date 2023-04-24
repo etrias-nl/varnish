@@ -13,7 +13,7 @@ lint-shell-scripts:
 lint-yaml:
 	${exec_docker} cytopia/yamllint .
 lint-dockerfile:
-	${exec_docker} hadolint/hadolint hadolint --ignore DL3006 --ignore DL3008 Dockerfile
+	${exec_docker} hadolint/hadolint hadolint --ignore DL3008 Dockerfile
 lint: lint-shell-scripts lint-yaml lint-dockerfile
 release: lint
 	git tag "${VARNISH_VERSION}-$$(($(shell git describe --tags --abbrev=0 | cut -f2 -d '-') + 1))"

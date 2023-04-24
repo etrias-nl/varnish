@@ -1,3 +1,4 @@
+# hadolint ignore=DL3006
 FROM golang as exporter_builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
