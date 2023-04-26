@@ -16,6 +16,9 @@ lint-dockerfile:
 	${exec_docker} hadolint/hadolint hadolint --ignore DL3008 Dockerfile
 lint: lint-shell-scripts lint-yaml lint-dockerfile
 release: lint
+	@[ "$$(git status --porcelain)" ] && echo "Commit your changes" && exit 1 || true
+	@[ "$$(git log --branches --not --remotes)" ] && echo "Push your commits" && exit 1 || true
+	@git describe --tags --abbrev=0 --exact-match && echo "Commit already tagged" && exit 1 || true
 	git tag "${VARNISH_VERSION}-$$(($(shell git describe --tags --abbrev=0 | cut -f2 -d '-') + 1))"
 	git push --tags
 build: lint
