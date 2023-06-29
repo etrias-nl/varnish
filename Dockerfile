@@ -10,7 +10,7 @@ RUN git clone https://github.com/jonnenauha/prometheus_varnish_exporter.git
 WORKDIR /go/prometheus_varnish_exporter
 RUN go build
 
-FROM emgag/varnish:6.6.2 AS varnish
+FROM emgag/varnish:7.2.1 AS varnish
 
 ARG GEOIP_VERSION=1.2.2
 ENV GEOIP_VERSION=$GEOIP_VERSION
