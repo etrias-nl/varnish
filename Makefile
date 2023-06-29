@@ -26,7 +26,7 @@ release: lint
 build: lint
 	docker buildx build --load --tag "${IMAGE_TAG}" .
 cli: clean build
-	docker exec -it "$(shell docker run -it -d "${IMAGE_TAG}")" sh
+	docker run -it --rm "${IMAGE_TAG}" bash
 clean:
 	docker rm $(shell docker ps -aq -f "ancestor=${IMAGE_TAG}") --force || true
 	docker rmi $(shell docker images -q "${IMAGE}") --force || true
