@@ -1,4 +1,3 @@
-# hadolint ignore=DL3006
 FROM golang as exporter_builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -29,7 +28,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xxd \
     && rm -rf /var/lib/apt/lists/*
 
-# hadolint ignore=DL3003,SC2035
 RUN cd /usr/local/src/ && \
     curl -sfLO https://github.com/fgsch/libvmod-geoip2/archive/refs/tags/v${GEOIP_VERSION}.tar.gz && \
     tar -xzf v${GEOIP_VERSION}.tar.gz && \
