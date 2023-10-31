@@ -38,7 +38,6 @@ RUN cd /usr/local/src/ && \
     cd /usr/local/src && \
     rm -rf libvmod-geoip2-${GEOIP_VERSION} *.tar.gz
 
-# hadolint ignore=DL3003,SC2035
 RUN cd /usr/local/src/ && \
     curl -sfLO https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/${CFG_VERSION}.tar.gz && \
     tar -xzf ${CFG_VERSION}.tar.gz && \
@@ -49,7 +48,6 @@ RUN cd /usr/local/src/ && \
     cd /usr/local/src && \
     rm -rf libvmod-cfg-${CFG_VERSION} *.tar.gz
 
-# hadolint ignore=DL3003,SC2035
 RUN cd /usr/local/src/ && \
     curl -sfLO https://github.com/xcir/libvmod-awsrest/archive/refs/tags/v${AWSREST_VERSION}.tar.gz && \
     tar -xzf v${AWSREST_VERSION}.tar.gz && \
