@@ -1,4 +1,4 @@
-FROM golang as exporter_builder
+FROM golang AS exporter_builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
