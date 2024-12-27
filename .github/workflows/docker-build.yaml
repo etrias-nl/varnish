@@ -35,7 +35,7 @@ jobs:
                     docker run --rm --entrypoint=sh "${{ steps.build.outputs.imageid }}"
     push:
         needs: [ build ]
-        runs-on: ubuntu-bizhost
+        runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         steps:
             -
